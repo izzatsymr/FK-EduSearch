@@ -3,60 +3,29 @@
 
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../Styles/style.css">
 </head>
 
 <body>
-    <div class="container">
+    <div class="container" style="margin-top: 25px;">
         <div class="row">
             <div class="col-sm-15">
                 <?php echo $deleteMsg ?? ''; ?>
                 <!-- New container for displaying total complaints by type -->
                 <div class="mb-3">
-                    <h3>Total Complaints by Type</h3>
+                    <h3>Complaint List</h3>
+                    <h5>Complaint Count By Type</h5>
                     <form method="GET" action="">
                         <div class="form-group">
                             <label for="dateType">Select Date Type:</label>
                             <select class="form-control" id="dateType" name="dateType">
-                                <option value="day">Day</option>
-                                <option value="week">Week</option>
-                                <option value="month">Month</option>
+                                <option value="day">Today</option>
+                                <option value="week">This Week</option>
+                                <option value="month">This Month</option>
                             </select>
-                        </div>
-                        <div class="form-group" id="dateFields">
-                            <label for="startDate">Select Date:</label>
-                            <input type="date" class="form-control" id="startDate" name="startDate">
-                        </div>
-                        <div class="form-group" id="weekFields" style="display: none;">
-                            <label for="weekNumber">Select Week Number:</label>
-                            <input type="week" class="form-control" id="weekNumber" name="weekNumber">
-                        </div>
-                        <div class="form-group" id="monthFields" style="display: none;">
-                            <label for="monthNumber">Select Month Number:</label>
-                            <input type="month" class="form-control" id="monthNumber" name="monthNumber">
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
-                    <script>
-                        // Show/hide input fields based on selected date type
-                        document.getElementById("dateType").addEventListener("change", function() {
-                            var dateType = this.value;
-                            var dateFields = document.getElementById("dateFields");
-                            var weekFields = document.getElementById("weekFields");
-                            var monthFields = document.getElementById("monthFields");
-
-                            dateFields.style.display = "none";
-                            weekFields.style.display = "none";
-                            monthFields.style.display = "none";
-
-                            if (dateType === "day") {
-                                dateFields.style.display = "block";
-                            } else if (dateType === "week") {
-                                weekFields.style.display = "block";
-                            } else if (dateType === "month") {
-                                monthFields.style.display = "block";
-                            }
-                        });
-                    </script>
                     <?php
                     // Check if dateType is set in the URL parameters
                     if (isset($_GET['dateType'])) {
@@ -68,37 +37,9 @@
                         // Select the database named "fkedusearch"
                         mysqli_select_db($mysql, "fkedusearch") or die(mysqli_error($mysql));
 
-                        // Initialize the date condition and bind parameters
-                        $dateCondition = "";
-                        $bindParams = array();
-
-                        // Generate the date condition based on selected dateType
-                        if ($dateType === "day") {
-                            $startDate = $_GET['startDate'];
-                            $dateCondition = "DATE(created_at) = ?";
-                            $bindParams[] = $startDate;
-                        } else if ($dateType === "week") {
-                            $weekNumber = $_GET['weekNumber'];
-                            $dateCondition = "WEEK(created_at) = ?";
-                            $bindParams[] = $weekNumber;
-                        } else if ($dateType === "month") {
-                            $monthNumber = $_GET['monthNumber'];
-                            $dateCondition = "MONTH(created_at) = ?";
-                            $bindParams[] = $monthNumber;
-                        }
-
-                        // Prepare the query with the date condition
-                        $query = "SELECT type, COUNT(*) as total FROM complaints WHERE $dateCondition GROUP BY type";
-                        $stmt = mysqli_prepare($mysql, $query);
-
-                        // Bind the parameters
-                        if ($dateType === "day" || $dateType === "week" || $dateType === "month") {
-                            mysqli_stmt_bind_param($stmt, str_repeat("s", count($bindParams)), ...$bindParams);
-                        }
-
-                        // Execute the query
-                        mysqli_stmt_execute($stmt);
-                        $result = mysqli_stmt_get_result($stmt);
+                        // Query to fetch total complaints by type based on selected dateType
+                        $query = "SELECT type, COUNT(*) as total FROM complaints WHERE DATE(created_at) >= CURDATE() - INTERVAL 1 $dateType GROUP BY type";
+                        $result = mysqli_query($mysql, $query);
 
                         if (mysqli_num_rows($result) > 0) {
                             echo "<div class='mt-3'>";
@@ -114,9 +55,6 @@
                         } else {
                             echo "<p>No complaints found for the selected $dateType.</p>";
                         }
-
-                        // Close the statement
-                        mysqli_stmt_close($stmt);
 
                         // Close the database connection
                         mysqli_close($mysql);
