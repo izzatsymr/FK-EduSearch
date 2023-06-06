@@ -19,7 +19,7 @@
                     <div class="form-group">
                         <label for="complaint_type">Complaint Type:</label>
                         <select class="form-control" id="type" name="type" required>
-                            <option value="Unstatisfied Expert's Feedback">Unstatisfied Expert's Feedback</option>
+                            <option value="Unsatisfied Expert’s Feedback">Unstatisfied Expert's Feedback</option>
                             <option value="Wrongly  Assigned Research Area">Wrongly  Assigned Research Area</option>
                             <option value="Technical Problems">Technical Problems</option>
                             <option value="Plagiarism or Academic Misconduct">Plagiarism or Academic Misconduct</option>
