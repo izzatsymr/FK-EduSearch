@@ -68,7 +68,7 @@ header {
     margin-right: 10px;
 }
 
-.close-button {
+/* .close-button {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -76,5 +76,39 @@ header {
     background-color: #ccc;
     border: none;
     border-radius: 3px;
+    cursor: pointer;
+} */
+
+.edit-popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 999;
+}
+
+.edit-popup-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 5px;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 20px;
     cursor: pointer;
 }

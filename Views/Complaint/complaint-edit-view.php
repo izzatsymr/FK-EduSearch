@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         .close-icon {
@@ -41,26 +41,32 @@
                             <label for="answer_id">Answer ID:</label>
                             <input type="text" class="form-control" id="answer_id" name="answer_id" value="<?php echo $answer_id; ?>" readonly>
                         </div>
+                        <br>
                         <div class="form-group">
                             <label for="question_id">Question ID:</label>
                             <input type="text" class="form-control" id="question_id" name="question_id" value="<?php echo $question_id; ?>" readonly>
                         </div>
+                        <br>
                         <div class="form-group">
                             <label for="username">User Name:</label>
                             <input type="text" class="form-control" id="username" name="username" value="<?php echo $username; ?>" readonly>
                         </div>
+                        <br>
                         <div class="form-group">
                             <label for="type">Type:</label>
                             <input type="text" class="form-control" id="type" name="type" value="<?php echo $type; ?>" readonly>
                         </div>
+                        <br>
                         <div class="form-group">
                             <label for="description">Description:</label>
                             <textarea class="form-control" id="description" name="description" readonly><?php echo $description; ?></textarea>
                         </div>
+                        <br>
                         <div class="form-group">
                             <label for="created_at">Created At:</label>
                             <input type="text" class="form-control" id="created_at" name="created_at" value="<?php echo $created_at; ?>" readonly>
                         </div>
+                        <br>
                         <div class="form-group">
                             <label for="status">Status:</label>
                             <select class="form-control" id="status" name="status">
@@ -69,6 +75,7 @@
                                 <option value="resolved" <?php if ($status == "resolved") echo "selected"; ?>>resolved</option>
                             </select>
                         </div>
+                        <br>
                         <button type="submit" class="btn btn-primary">Update</button>
                     </form>
                 <?php
