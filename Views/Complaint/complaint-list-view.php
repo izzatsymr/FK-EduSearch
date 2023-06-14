@@ -4,6 +4,42 @@
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../Styles/style.css">
+
+    <style>
+        .edit-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 999;
+        }
+
+        .edit-popup-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 5px;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body>
@@ -61,7 +97,9 @@
                     }
                     ?>
                 </div>
-
+                <a href="Complaint-report-view.php" class="btn btn-primary mt-3">Full Report</a> <!-- Button for Full Report -->
+                <br>
+                <br>
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead>
@@ -72,7 +110,7 @@
                                 <th>User Name</th>
                                 <th>Type</th>
                                 <th>Description</th>
-                                <th>Created At</th>
+                                <th>Issued On</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -113,8 +151,8 @@
                                         <td><?php echo $created_at; ?></td>
                                         <td><?php echo $status; ?></td>
                                         <td>
-                                            <!-- Edit button that redirects to complaint-edit-view.php -->
-                                            <a href="complaint-edit-view.php?id=<?php echo $id; ?>&answer_id=<?php echo $answer_id; ?>&question_id=<?php echo $question_id; ?>&username=<?php echo $username; ?>&type=<?php echo $type; ?>&description=<?php echo $description; ?>&created_at=<?php echo $created_at; ?>&status=<?php echo $status; ?>" class="btn btn-primary">Edit</a>
+                                            <!-- Edit button that displays the pop-up overlay -->
+                                            <a href="javascript:void(0);" class="btn btn-primary" onclick="displayEditPopup(<?php echo $id; ?>, <?php echo $answer_id; ?>, <?php echo $question_id; ?>, '<?php echo $username; ?>', '<?php echo $type; ?>', '<?php echo $description; ?>', '<?php echo $created_at; ?>', '<?php echo $status; ?>')">Edit</a>
                                         </td>
                                     </tr>
                             <?php
@@ -126,9 +164,40 @@
                         </tbody>
                     </table>
                 </div>
+
+                <div id="editPopup" class="edit-popup">
+                    <div class="edit-popup-content">
+                        <!-- Close button -->
+                        <button class="close-button" onclick="closeEditPopup()">Close</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
+    <script>
+        function displayEditPopup(id, answerId, questionId, username, type, description, createdAt, status) {
+            var editPopup = document.getElementById("editPopup");
+            editPopup.style.display = "block";
+
+            var editPageUrl = "complaint-edit-view.php?id=" + id + "&answer_id=" + answerId + "&question_id=" + questionId + "&username=" + username + "&type=" + type + "&description=" + description + "&created_at=" + createdAt + "&status=" + status;
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", editPageUrl, true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var editPopupContent = document.querySelector(".edit-popup-content");
+                    editPopupContent.innerHTML = xhr.responseText;
+                }
+            };
+            xhr.send();
+        }
+
+        function closeEditPopup() {
+            var editPopup = document.getElementById("editPopup");
+            editPopup.style.display = "none";
+        }
+    </script>
+
 </body>
 
 </html>
