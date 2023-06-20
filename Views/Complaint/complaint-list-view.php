@@ -2,8 +2,8 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="../../Styles/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 
     <style>
         .edit-popup {
@@ -92,7 +92,6 @@
                 <!-- Displaying total complaints by type -->
                 <div class="mb-3">
                     <h3>Complaint List</h3>
-                    <h5>Complaint Count By Type</h5>
                     <div class="card">
                         <div class="card-body">
                             <?php
@@ -114,9 +113,9 @@
                             }
                             ?>
 
-                            <div class="mt-3">
+                            <div class="mt-1">
                                 <h5>Total Complaints by Type:</h5>
-                                <table class="table table-rounded">
+                                <table class="table table-borderless table-striped">
                                     <thead>
                                         <tr>
                                             <th>Complaint Type</th>
@@ -159,9 +158,9 @@
                 <br>
                 <br>
                 <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr class="table-primary">
+                    <table class="table table-bordered table-striped">
+                        <thead class="table-dark align-middle">
+                            <tr>
                                 <th>Complaint ID</th>
                                 <th>Answer ID</th>
                                 <th>Question ID</th>
@@ -215,15 +214,15 @@
                                     }
                             ?>
                                     <tr>
-                                        <td><?php echo $id; ?></td>
-                                        <td><?php echo $answer_id; ?></td>
-                                        <td><?php echo $question_id; ?></td>
-                                        <td><?php echo $username; ?></td>
+                                        <td class="align-middle"><?php echo $id; ?></td>
+                                        <td class="align-middle"><?php echo $answer_id; ?></td>
+                                        <td class="align-middle"><?php echo $question_id; ?></td>
+                                        <td class="align-middle"><?php echo $username; ?></td>
                                         <td><?php echo $type; ?></td>
                                         <td><?php echo $description; ?></td>
-                                        <td><?php echo $created_at; ?></td>
-                                        <td style="color: <?php echo $statusColor; ?>"><?php echo $status; ?></td>
-                                        <td>
+                                        <td class="align-middle"><?php echo $created_at; ?></td>
+                                        <td class="align-middle" style="color: <?php echo $statusColor; ?>"><?php echo $status; ?></td>
+                                        <td class="align-middle">
                                             <!-- Edit button that displays the pop-up overlay -->
                                             <a href="javascript:void(0);" class="btn btn-primary" onclick="displayEditPopup(<?php echo $id; ?>, <?php echo $answer_id; ?>, <?php echo $question_id; ?>, '<?php echo $username; ?>', '<?php echo $type; ?>', '<?php echo $description; ?>', '<?php echo $created_at; ?>', '<?php echo $status; ?>')">Edit</a>
                                         </td>
