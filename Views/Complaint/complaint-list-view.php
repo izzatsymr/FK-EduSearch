@@ -89,57 +89,67 @@
         <div class="row">
             <div class="col-sm-15">
                 <?php echo $deleteMsg ?? ''; ?>
-                <!-- New container for displaying total complaints by type -->
+                <!-- Displaying total complaints by type -->
                 <div class="mb-3">
                     <h3>Complaint List</h3>
                     <h5>Complaint Count By Type</h5>
                     <div class="card">
                         <div class="card-body">
-                            <form method="GET" action="">
-                                <div class="form-group">
-                                    <label for="dateType">Select Date Type:</label>
-                                    <select class="form-control" id="dateType" name="dateType">
-                                        <option value="day">Today</option>
-                                        <option value="week">This Week</option>
-                                        <option value="month">This Month</option>
-                                    </select>
-                                </div>
-                                <br>
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </form>
                             <?php
-                            // Check if dateType is set in the URL parameters
-                            if (isset($_GET['dateType'])) {
-                                $dateType = $_GET['dateType'];
+                            // Connect to MySQL server
+                            $mysql = mysqli_connect("localhost", "root", "") or die(mysqli_connect_error());
 
-                                // Connect to MySQL server
-                                $mysql = mysqli_connect("localhost", "root", "") or die(mysqli_connect_error());
+                            // Select the database named "fkedusearch"
+                            mysqli_select_db($mysql, "fkedusearch") or die(mysqli_error($mysql));
 
-                                // Select the database named "fkedusearch"
-                                mysqli_select_db($mysql, "fkedusearch") or die(mysqli_error($mysql));
+                            // Query to fetch total complaints by type for different date types
+                            $dateTypes = array("day", "week", "month");
+                            $complaintTypes = array(); // Array to store unique complaint types
 
-                                // Query to fetch total complaints by type based on selected dateType
-                                $query = "SELECT type, COUNT(*) as total FROM complaints WHERE DATE(created_at) >= CURDATE() - INTERVAL 1 $dateType GROUP BY type";
-                                $result = mysqli_query($mysql, $query);
-
-                                if (mysqli_num_rows($result) > 0) {
-                                    echo "<div class='mt-3'>";
-                                    echo "<h5>Total Complaints by Type ($dateType):</h5>";
-                                    echo "<ul>";
-                                    while ($row = mysqli_fetch_assoc($result)) {
-                                        $type = $row["type"];
-                                        $total = $row["total"];
-                                        echo "<li>$type: $total</li>";
-                                    }
-                                    echo "</ul>";
-                                    echo "</div>";
-                                } else {
-                                    echo "<p>No complaints found for the selected $dateType.</p>";
-                                }
-
-                                // Close the database connection
-                                mysqli_close($mysql);
+                            // Fetch unique complaint types
+                            $query = "SELECT DISTINCT type FROM complaints";
+                            $result = mysqli_query($mysql, $query);
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                $complaintTypes[] = $row['type'];
                             }
+                            ?>
+
+                            <div class="mt-3">
+                                <h5>Total Complaints by Type:</h5>
+                                <table class="table table-rounded">
+                                    <thead>
+                                        <tr>
+                                            <th>Complaint Type</th>
+                                            <th>Today</th>
+                                            <th>This Week</th>
+                                            <th>This Month</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        foreach ($complaintTypes as $complaintType) {
+                                            echo "<tr>";
+                                            echo "<td>$complaintType</td>";
+
+                                            // Fetch and display total complaints for each date type
+                                            foreach ($dateTypes as $dateType) {
+                                                $query = "SELECT COUNT(*) as total FROM complaints WHERE DATE(created_at) >= CURDATE() - INTERVAL 1 $dateType AND type = '$complaintType'";
+                                                $result = mysqli_query($mysql, $query);
+                                                $row = mysqli_fetch_assoc($result);
+                                                $total = $row['total'];
+
+                                                echo "<td>$total</td>";
+                                            }
+
+                                            echo "</tr>";
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <?php
+                            // Close the database connection
+                            mysqli_close($mysql);
                             ?>
                         </div>
                     </div>
@@ -149,9 +159,9 @@
                 <br>
                 <br>
                 <div class="table-responsive">
-                    <table class="table table-bordered">
+                    <table class="table">
                         <thead>
-                            <tr class="table-primary"> <!-- Set the table header color to blue -->
+                            <tr class="table-primary">
                                 <th>Complaint ID</th>
                                 <th>Answer ID</th>
                                 <th>Question ID</th>
@@ -191,13 +201,13 @@
                                     $statusColor = '';
                                     switch ($status) {
                                         case 'onhold':
-                                            $statusColor = 'rgba(255, 99, 132, 0.5)';
+                                            $statusColor = '#FF5733';
                                             break;
                                         case 'investigation':
-                                            $statusColor = 'rgba(54, 162, 235, 0.5)';
+                                            $statusColor = '#3355FF';
                                             break;
                                         case 'resolved':
-                                            $statusColor = 'rgba(75, 192, 192, 0.5)';
+                                            $statusColor = '#77DD77';
                                             break;
                                         default:
                                             $statusColor = '';
@@ -212,7 +222,7 @@
                                         <td><?php echo $type; ?></td>
                                         <td><?php echo $description; ?></td>
                                         <td><?php echo $created_at; ?></td>
-                                        <td><span class="badge rounded-pill" style="background-color: <?php echo $statusColor; ?>"><?php echo $status; ?></span></td>
+                                        <td style="color: <?php echo $statusColor; ?>"><?php echo $status; ?></td>
                                         <td>
                                             <!-- Edit button that displays the pop-up overlay -->
                                             <a href="javascript:void(0);" class="btn btn-primary" onclick="displayEditPopup(<?php echo $id; ?>, <?php echo $answer_id; ?>, <?php echo $question_id; ?>, '<?php echo $username; ?>', '<?php echo $type; ?>', '<?php echo $description; ?>', '<?php echo $created_at; ?>', '<?php echo $status; ?>')">Edit</a>
@@ -226,6 +236,7 @@
                             ?>
                         </tbody>
 
+
                     </table>
                 </div>
             </div>
@@ -234,7 +245,6 @@
 
     <div id="editPopup" class="edit-popup">
         <div class="edit-popup-content">
-            <!-- Close button -->
             <button class="close-button" onclick="closeEditPopup()">Close</button>
         </div>
     </div>
