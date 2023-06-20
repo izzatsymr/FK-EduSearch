@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title></title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <style>
+    .remaining-time {
+      min-width: 100px;
+    }
+  </style>
 </head>
 <body>
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -61,6 +66,7 @@
             <th>Title</th>
             <th>Description</th>
             <th>Status</th>
+            <th>Remaining Time</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -92,7 +98,7 @@
           }
 
           // Retrieve the data from the database
-          $query = "SELECT q.type, q.title, q.description, q.status, q.id
+          $query = "SELECT q.type, q.title, q.description, q.status, TIME_TO_SEC(q.remaining_time) AS remaining_seconds, q.id
                     FROM questions q, experts e
                     WHERE q.expert_id = e.id";
 
@@ -105,6 +111,7 @@
               $title = $row["title"];
               $description = $row["description"];
               $status = $row["status"];
+              $remainingSeconds = $row["remaining_seconds"];
               $id = $row["id"];
               ?>
               <tr>
@@ -112,6 +119,9 @@
                 <td><?php echo $title; ?></td>
                 <td><?php echo $description; ?></td>
                 <td><?php echo $status; ?></td>
+                <td class="remaining-time">
+                  <span data-remaining-time="<?php echo $remainingSeconds; ?>"></span>
+                </td>
                 <td>
                   <div class="d-flex">
                     <?php if ($status !== 'accepted') { ?>
@@ -132,6 +142,36 @@
       </table>
     </div>
   </div>
+
+  <script>
+    // Update the countdown timers
+    function updateCountdownTimers() {
+      const remainingTimeElements = document.querySelectorAll('[data-remaining-time]');
+
+      remainingTimeElements.forEach((element) => {
+        const remainingSeconds = parseInt(element.getAttribute('data-remaining-time'));
+        if (remainingSeconds > 0) {
+          const hours = Math.floor(remainingSeconds / 3600);
+          const minutes = Math.floor((remainingSeconds % 3600) / 60);
+          const seconds = remainingSeconds % 60;
+          element.textContent = hours.toString().padStart(2, '0') + ':' + minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0');
+
+          // Decrease remaining time by 1 second
+          element.setAttribute('data-remaining-time', remainingSeconds - 1);
+        } else {
+          element.textContent = '00:00:00'; // Time expired
+        }
+      });
+
+      // Call the function again after 1 second
+      setTimeout(updateCountdownTimers, 1000);
+    }
+
+    // Start the countdown timers on page load
+    window.addEventListener('load', () => {
+      updateCountdownTimers();
+    });
+  </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 </body>
