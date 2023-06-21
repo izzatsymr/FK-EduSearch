@@ -19,7 +19,9 @@ mysqli_close($mysql);
 </head>
 
 <body>
-
+  <?php
+  include '..\..\Assets\navbar.html';
+  ?>
   <div class="container">
     <h1>Answer List</h1>
     <table class="table">
