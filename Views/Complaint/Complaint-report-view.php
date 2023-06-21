@@ -15,51 +15,13 @@
 </head>
 
 <body>
-    <script src="../../Functions/myfunctions.js"></script> <!-- Add this line to reference the external JavaScript file -->
+
+    <?php
+    include '..\..\Assets\navbar.html';
+    ?>
+
+    <script src="../../Functions/myfunctions.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-
-
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">FK-EDUSEARCH</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#">Discussion</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">General Users</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Experts
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Expert Profile<span class="badge bg-primary rounded-pill">14</span></a></li>
-                            <li><a class="dropdown-item" href="#">Status<span class="badge bg-primary rounded-pill">14</span></a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Reports</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Complaint</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Manage Account</a>
-                    </li>
-                </ul>
-                <br>
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
-            </div>
-        </div>
-    </nav>
 
     <div class="container">
         <h3>Complaints Report</h3>
@@ -184,6 +146,11 @@
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+
+    <?php
+    include '..\..\Assets\footer.html';
+    ?>
+
 </body>
 
 </html>
