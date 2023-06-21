@@ -1,111 +1,57 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
-
-        body {
-            background-color: #f8f9fa;
-            font-family: 'Inter', sans-serif;
-        }
-
-        ul.navbar {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background-color: #fff;
-            border-bottom: 1px solid #ddd;
-            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        ul.navbar::after {
-            content: "";
-            display: table;
-            clear: both;
-        }
-
-        ul.navbar li {
-            float: left;
-        }
-
-        ul.navbar li a {
-            display: block;
-            color: #333;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        ul.navbar li a:hover {
-            background-color: #333;
-            color: #fff;
-        }
-
-        .navbar-right {
-            float: right;
-        }
-
-        .profile-pic {
-            display: inline-block;
-            vertical-align: middle;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-
-        .notification-logo {
-            display: inline-block;
-            vertical-align: middle;
-            width: 20px;
-            height: 20px;
-            margin-right: 10px;
-        }
-
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 10px; /* Adjust as needed */
-        }
-
-        table {
-            width: 300px;
-            margin: 10px auto;
-            border-collapse: collapse;
-            background-color: #fff;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-            border-radius: 5px;
-        }
-
-        th {
-            padding: 10px;
-            background-color: #f9f9f9;
-            font-weight: bold;
-            text-align: left;
-        }
-
-        td {
-            padding: 10px;
-            text-align: left;
-        }
-    </style>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
+  </script>
 </head>
 <body>
-    <ul class="navbar">
-        <li><a href="Discussion.php">Discussion</a></li>
-        <li><a href="GeneralUser.php">General User</a></li>
-        <li><a href="Experts.php">Experts</a></li>
-        <li><a href="Reports.php">Reports</a></li>
-        <li><a href="Complaints.php">Complaints</a></li>
-        <li><a href="manage-account.php">Manage Account</a></li>
-        <li class="navbar-right">
-            <img src="https://static.vecteezy.com/system/resources/thumbnails/009/734/564/small/default-avatar-profile-icon-of-social-media-user-vector.jpg" alt="Profile Picture" class="profile-pic">
-            <img src="https://png.pngtree.com/png-vector/20190725/ourmid/pngtree-vector-notification-icon-png-image_1577363.jpg" alt="Notification Logo" class="notification-logo">
-        </li>
-    </ul>
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">FK-EDUSEARCH</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="Discussion.php">Discussion</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">General Users</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Experts
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Expert Profile</a></li>
+                        <li><a class="dropdown-item" href="#">Expert Information</a></li>
+                        <li><a class="dropdown-item" href="#">Status</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Reports</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Complaint</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="manage-account.php">Manage Account</a>
+                </li>
+            </ul>
+            <form class="d-flex" role="search" action="Discussion.php" method="GET">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</nav>
 
 </body>
 </html>
