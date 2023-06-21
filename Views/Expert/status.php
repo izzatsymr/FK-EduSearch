@@ -1,9 +1,10 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FK-EDUSEARCH</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
   <style>
     .remaining-time {
@@ -11,51 +12,11 @@
     }
   </style>
 </head>
+
 <body>
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">FK-EDUSEARCH</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#">Discussion</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">General Users</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Experts
-                        </a>
-                        <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" href="#">Expert Profile</a></li>
-                            <li><a class="dropdown-item" href="#">Expert Information</a></li>
-                          <li><a class="dropdown-item" href="#">Status</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Reports</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Complaint</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Manage Account</a>
-                    </li>
-                </ul>
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
-            </div>
-        </div>
-    </nav>
+    <!-- ...navbar code... -->
+  </nav>
 
   <div class="container">
     <div class="table-responsive">
@@ -113,20 +74,23 @@
               $status = $row["status"];
               $remainingSeconds = $row["remaining_seconds"];
               $id = $row["id"];
-              ?>
+          ?>
               <tr>
                 <td><?php echo $type; ?></td>
                 <td><?php echo $title; ?></td>
                 <td><?php echo $description; ?></td>
                 <td><?php echo $status; ?></td>
-                <td class="remaining-time">
-                  <span data-remaining-time="<?php echo $remainingSeconds; ?>"></span>
+                <td>
+                  <div class="remaining-time" data-remaining="<?php echo $remainingSeconds; ?>"></div>
                 </td>
                 <td>
                   <div class="d-flex">
                     <?php if ($status !== 'accepted') { ?>
                       <!-- Display the accept button only if the status is not "accepted" -->
                       <a href="<?php echo $_SERVER['PHP_SELF'] . '?id=' . $id . '&action=accept'; ?>" class="btn btn-primary me-2">Accept</a>
+                    <?php } else { ?>
+                      <!-- Display the answer button if the status is "accepted" -->
+                      <a href="answers.php?id=<?php echo $id; ?>" class="btn btn-primary me-2">Answer</a>
                     <?php } ?>
                     <a href="<?php echo $_SERVER['PHP_SELF'] . '?id=' . $id . '&action=delete'; ?>" class="btn btn-danger">Delete</a>
                   </div>
@@ -137,42 +101,39 @@
           } else {
             echo "0 results";
           }
+
+          mysqli_close($mysql);
           ?>
         </tbody>
       </table>
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-k1tk05hqFz1rDKxKZtK/2ea1ByxQWVCF9eE/Dr0bTeeMFgZ3eodVKX0W50OztFO9" crossorigin="anonymous"></script>
   <script>
-    // Update the countdown timers
-    function updateCountdownTimers() {
-      const remainingTimeElements = document.querySelectorAll('[data-remaining-time]');
+    // Timer logic
+    function startTimer(element) {
+      var remainingSeconds = parseInt(element.getAttribute('data-remaining'));
+      var interval = setInterval(function() {
+        var minutes = Math.floor(remainingSeconds / 60);
+        var seconds = remainingSeconds % 60;
 
-      remainingTimeElements.forEach((element) => {
-        const remainingSeconds = parseInt(element.getAttribute('data-remaining-time'));
-        if (remainingSeconds > 0) {
-          const hours = Math.floor(remainingSeconds / 3600);
-          const minutes = Math.floor((remainingSeconds % 3600) / 60);
-          const seconds = remainingSeconds % 60;
-          element.textContent = hours.toString().padStart(2, '0') + ':' + minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0');
+        element.innerHTML = minutes + "m " + seconds + "s";
 
-          // Decrease remaining time by 1 second
-          element.setAttribute('data-remaining-time', remainingSeconds - 1);
+        if (remainingSeconds <= 0) {
+          clearInterval(interval);
+          element.innerHTML = "Expired";
         } else {
-          element.textContent = '00:00:00'; // Time expired
+          remainingSeconds--;
         }
-      });
-
-      // Call the function again after 1 second
-      setTimeout(updateCountdownTimers, 1000);
+      }, 1000);
     }
 
-    // Start the countdown timers on page load
-    window.addEventListener('load', () => {
-      updateCountdownTimers();
+    var remainingTimeElements = document.querySelectorAll('.remaining-time');
+    remainingTimeElements.forEach(function(element) {
+      startTimer(element);
     });
   </script>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 </body>
+
 </html>
