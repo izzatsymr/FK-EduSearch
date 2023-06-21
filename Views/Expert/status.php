@@ -14,9 +14,9 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <!-- ...navbar code... -->
-  </nav>
+  <?php
+  include '..\..\Assets\navbar.html';
+  ?>
 
   <div class="container">
     <div class="table-responsive">
