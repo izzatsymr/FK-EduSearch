@@ -154,6 +154,9 @@
     $conn->close();
 ?>
 
+<?php
+    include '..\..\Assets\navbar.html'; ?>
+
 <ul class="navbar">
     <li><a href="MainPage.php">Home</a></li>
     <li><a href="DataListPage.php">Data</a></li>

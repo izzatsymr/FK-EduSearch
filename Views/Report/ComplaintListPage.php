@@ -127,6 +127,10 @@
     </style>
 </head>
 <body>
+
+<?php
+    include '..\..\Assets\navbar.html'; ?>
+
 <ul class="navbar">
     <li><a href="MainPage.php">Home</a></li>
     <li><a href="DataListPage.php">Data</a></li>
@@ -139,6 +143,8 @@
         <img src="https://png.pngtree.com/png-vector/20190725/ourmid/pngtree-vector-notification-icon-png-image_1577363.jpg" alt="Notification Logo" class="notification-logo">
     </li>
 </ul>
+
+
 
     <h1 class="header">Complaints List:</h1>
 
