@@ -20,7 +20,7 @@
                 <form method="post" action="complaint-create.php">
                     <div class="form-group">
                         <label for="answer_id">Answer ID:</label>
-                        <input type="text" class="form-control" id="answer_id" name="answer_id" required>
+                        <input type="text" class="form-control" id="answer_id" name="answer_id" value="<?php echo $_GET['answer_id']; ?>" required disabled>
                     </div>
                     <div class="form-group">
                         <label for="complaint_type">Complaint Type:</label>

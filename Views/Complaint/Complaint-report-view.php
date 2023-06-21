@@ -16,7 +16,6 @@
 </head>
 
 <body>
-
     <?php
     include '..\..\Assets\navbar.html';
     ?>
