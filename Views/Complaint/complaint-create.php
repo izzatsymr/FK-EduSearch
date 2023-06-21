@@ -5,6 +5,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $type = $_POST['type'];
         $description = $_POST['description'];
 
+        echo $answer_id;
+
         // Connect to the database
         $mysql = mysqli_connect("localhost", "root", "") or die(mysqli_connect_error());
         mysqli_select_db($mysql, "fkedusearch") or die(mysqli_error($mysql));
