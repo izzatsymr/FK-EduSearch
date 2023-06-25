@@ -1,30 +1,26 @@
-
-
-
 <?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST['user_id']) && isset($_POST['type']) && isset($_POST['title']) && isset($_POST['description'])) {
-        $user_id = $_POST['user_id'];
-        $type = $_POST['type'];
-        $title = $_POST['title'];
-        $description = $_POST['description'];
+// Connect to the database
+$mysql = mysqli_connect("localhost", "root", "", "fkedusearch") or die(mysqli_connect_error());
 
-        // Connect to the database
-        $mysql = mysqli_connect("localhost", "root", "") or die(mysqli_connect_error());
-        mysqli_select_db($mysql, "fkedusearch") or die(mysqli_error($mysql));
+// Retrieve form data
+$userID = $_POST['user_id'];
+$type = $_POST['type'];
+$title = $_POST['title'];
+$description = $_POST['description'];
 
-        $user_id = mysqli_real_escape_string($mysql, $user_id);
-        $type = mysqli_real_escape_string($mysql, $type);
-        $title = mysqli_real_escape_string($mysql, $title);
-        $description = mysqli_real_escape_string($mysql, $description);
+// Prepare the SQL statement
+$query = "INSERT INTO questions (user_id, type, title, description) VALUES ('$userID', '$type', '$title', '$description')";
 
-        $query = "INSERT INTO questions (user_id, type, title, description) VALUES ('$user_id', '$type', '$title', '$description')";
-        mysqli_query($mysql, $query);
+// Execute the SQL statement
+if (mysqli_query($mysql, $query)) {
+    // Display success message
+    echo "The information has been entered successfully.";
 
-        // Close the database connection
-        mysqli_close($mysql);
-    }
+    // Close the database connection
+    mysqli_close($mysql);
+} else {
+    // Display an error message if the query execution fails
+    echo "Error: " . mysqli_error($mysql);
 }
-header("Location: ../Discussion.php");
-exit();
+?>
 

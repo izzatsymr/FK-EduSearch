@@ -29,7 +29,7 @@
       <input type="text" class="form-control" id="academicStatus" name="academicStatus" required>
     </div>
     
-    <button type="submit" class="btn btn-primary">Create Account</button>
+    <button type="submit" class="btn btn-primary">Manage Account</button>
     <a href="index.html" class="btn btn-secondary">Cancel</a>
   </form>
 </div>

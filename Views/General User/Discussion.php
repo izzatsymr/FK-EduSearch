@@ -26,8 +26,7 @@
 
     <?php
     // Connect to the database
-    $mysql = mysqli_connect("localhost", "root", "") or die(mysqli_connect_error());
-    mysqli_select_db($mysql, "fkedusearch") or die(mysqli_error($mysql));
+    $mysql = mysqli_connect("localhost", "root", "", "fkedusearch") or die(mysqli_connect_error());
 
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         if (isset($_GET['search'])) {
