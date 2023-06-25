@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         // If no question ID is provided, redirect back to the question list page
         header("Location: discussion-list-view.php");
-        exit();
+        exit(); 
     }
 }
 
