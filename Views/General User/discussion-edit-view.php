@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   mysqli_query($mysql, $query);
 
   // Redirect back to the question list page
-  header("Location: question-list.php");
+  header("Location: discussion-list-view.php");
   exit();
 } else {
   // Check if the question ID is provided in the URL

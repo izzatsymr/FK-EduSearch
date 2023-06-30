@@ -18,13 +18,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $title = mysqli_real_escape_string($mysql, $title);
         $description = mysqli_real_escape_string($mysql, $description);
 
-        $query = "INSERT INTO questions (user_id, type, title, description) VALUES ('$user_id', '$type', '$title', '$description')";
+        $query = "INSERT INTO questions (user_id, expert_id, type, title, description) VALUES ('$user_id', null, '$type', '$title', '$description')";
         mysqli_query($mysql, $query);
 
         // Close the database connection
         mysqli_close($mysql);
     }
 }
-header("Location: ../Discussion.php");
+header("Location: discussion-list-view.php");
 exit();
 

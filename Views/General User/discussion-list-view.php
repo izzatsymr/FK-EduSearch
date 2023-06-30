@@ -54,7 +54,7 @@ mysqli_close($mysql);
           echo "<td>" . $row['remaining_time'] . "</td>";
           echo "<td>";
           if ($row['expert_id'] === null) {
-            echo "<a href='discussion-edit-view.php?id=" . $row['id'] . "' class='btn btn-primary'>Edit</a>";
+            echo "<a href='discussion-edit-view.php?id=" . $row['id'] . "' class='btn btn-primary'>Assign Expert</a>";
           }
           echo "</td>";
           echo "</tr>";
