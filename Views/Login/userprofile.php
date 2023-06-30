@@ -2,22 +2,6 @@
 <html>
 
 <head>
-	<title>User Profile</title>
-
-
-	<div class="container mt-4" id="top-logo">
-		<div class="row">
-			<div class="col-md-2" style="right: 5%;">
-				<nav class="navbar navbar-light">
-					<a class="navbar-brand" href="#">
-						<img src="image/umplogo.png" width=auto height="70">
-					</a>
-				</nav>
-			</div>
-		</div>
-	</div>
-	<h2>View User Profile</h2>
-
 	<style>
 		table,
 		td,
@@ -35,6 +19,9 @@
 </head>
 
 <body>
+	<?php
+	include '..\..\Assets\navbar.html';
+	?>
 
 	<h3>Profile Information</h3>
 	<table>
