@@ -76,7 +76,7 @@ session_start();
                             $academic_status = $_POST['academic_status'];
 							$userType = $_POST['userType'];
 
-                            $query = "INSERT INTO users VALUES ('', '$userType', '$first_name', '$last_name', '$address', '$email', NOW(), '$password', '$academic_status', NULL, NOW(), NULL, NULL)";
+                            $query = "INSERT INTO users VALUES ('', '$first_name', '$last_name', '$email', '$userType','$password','$academic_status','$address',  NULL, NOW(), NULL, NULL)";
 
                             // To run SQL query in database
                             $result = mysqli_query($mysql, $query);

@@ -185,10 +185,16 @@
                                         <td class="align-middle"><?php echo $created_at; ?></td>
                                         <td class="align-middle" style="color: <?php echo $statusColor; ?>"><?php echo $status; ?></td>
                                         <td class="align-middle">
-                                            <!-- Edit button that displays the pop-up overlay -->
-                                            <a href="javascript:void(0);" class="btn btn-primary" onclick="displayEditPopup(<?php echo $id; ?>, <?php echo $answer_id; ?>, <?php echo $question_id; ?>, '<?php echo $username; ?>', '<?php echo $type; ?>', '<?php echo $description; ?>', '<?php echo $created_at; ?>', '<?php echo $status; ?>')">Edit</a>
+                                            <?php if ($status === 'resolved') : ?>
+                                                <!-- Delete button that redirects to complaint-delete.php -->
+                                                <a href="complaint-delete.php?id=<?php echo $id; ?>" class="btn btn-danger">Delete</a>
+                                            <?php else : ?>
+                                                <!-- Edit button that displays the pop-up overlay -->
+                                                <a href="javascript:void(0);" class="btn btn-primary" onclick="displayEditPopup(<?php echo $id; ?>, <?php echo $answer_id; ?>, <?php echo $question_id; ?>, '<?php echo $username; ?>', '<?php echo $type; ?>', '<?php echo $description; ?>', '<?php echo $created_at; ?>', '<?php echo $status; ?>')">Edit</a>
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
+
                             <?php
                                 }
                             } else {
@@ -234,9 +240,11 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 
-    <?php
-    include '..\..\Assets\footer.html';
-    ?>
+    <footer class="footer mt-auto py-3 bg-body-tertiary">
+        <div class="container">
+            <span class="text-body-secondary">Copyright Universiti Malaysia Pahang. 2023.</span>
+        </div>
+    </footer>
 </body>
 
 </html>
