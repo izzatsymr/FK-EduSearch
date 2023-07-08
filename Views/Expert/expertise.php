@@ -98,6 +98,7 @@
                 var type = $(this).data('type');
                 var dataType = id ? 'research' : (link ? 'socmed' : 'publication');
                 var dataValue = id || link;
+                var deleteBtn = $(this); // Store the reference to the delete button
 
                 $.ajax({
                     url: 'delete_item.php',
@@ -106,6 +107,9 @@
                     success: function (response) {
                         // Handle success response, e.g., remove the deleted item from the DOM
                         console.log(response);
+
+                        // Remove the deleted item from the DOM
+                        deleteBtn.closest('.form-check').remove();
                     },
                     error: function (xhr, status, error) {
                         // Handle error response

@@ -14,9 +14,7 @@
 </head>
 
 <body>
-  <?php
-  include '..\..\Assets\navbar.html';
-  ?>
+
 
   <div class="container">
     <div class="table-responsive">

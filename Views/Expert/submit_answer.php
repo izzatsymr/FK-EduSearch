@@ -1,27 +1,47 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  // Assuming you have a database connection established
-  $mysql = mysqli_connect("localhost", "root", "") or die(mysqli_connect_error());
-  mysqli_select_db($mysql, "fkedusearch") or die(mysqli_error($mysql));
+    // Check if all required fields are present
+    if (isset($_POST['type']) && isset($_POST['title']) && isset($_POST['question_description']) && isset($_POST['answer_description']) && isset($_POST['expert']) && isset($_POST['question_id'])) {
+        $type = $_POST['type'];
+        $title = $_POST['title'];
+        $questionDescription = $_POST['question_description'];
+        $answerDescription = $_POST['answer_description'];
+        $expert = $_POST['expert'];
+        $questionId = $_POST['question_id'];
 
-  $questionId = $_POST['question_id'];
-  $answerDescription = $_POST['answer_description'];
+        // Assuming you have a database connection established
+        $mysql = mysqli_connect("localhost", "root", "", "fkedusearch") or die(mysqli_connect_error());
 
-  // Save the answer in the database
-  $insertQuery = "INSERT INTO answers (question_id, description) VALUES ('$questionId', '$answerDescription')";
-  $insertResult = mysqli_query($mysql, $insertQuery);
+        // Insert the answer into the database
+        $query = "INSERT INTO answers (question_id, description) VALUES ($questionId, '$answerDescription')";
+        $result = mysqli_query($mysql, $query);
 
-  if ($insertResult) {
-    // Redirect to status.php
-    header("Location: status.php");
-    exit();
-  } else {
-    echo "Error: " . mysqli_error($mysql);
-  }
+        if ($result) {
+            // Answer stored successfully
 
-  // Close the database connection
-  mysqli_close($mysql);
+            // Update the status of the corresponding question to "accepted"
+            $updateQuery = "UPDATE questions SET status = 'accepted' WHERE id = $questionId";
+            $updateResult = mysqli_query($mysql, $updateQuery);
+
+            if ($updateResult) {
+                mysqli_close($mysql);
+                header("Location: status.php");
+                exit;
+            } else {
+                // Failed to update question status
+                echo "Failed to update question status. Please try again.";
+            }
+        } else {
+            // Failed to store answer
+            echo "Failed to submit answer. Please try again.";
+        }
+
+        // Close the database connection
+        mysqli_close($mysql);
+    } else {
+        echo "Missing required fields.";
+    }
 } else {
-  echo "Invalid request";
+    echo "Invalid request.";
 }
 ?>
